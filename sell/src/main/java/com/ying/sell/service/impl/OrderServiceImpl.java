@@ -1,6 +1,9 @@
 package com.ying.sell.service.impl;
 
-
+/*
+        订单业务逻辑层
+ */
+import com.ying.sell.converter.OrderMaster2OrderDTOConverter;
 import com.ying.sell.dataobject.OrderDetail;
 import com.ying.sell.dataobject.OrderMaster;
 import com.ying.sell.dataobject.ProductInfo;
@@ -19,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -110,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO findOne(String orderId) {
 
-        /*OrderMaster orderMaster = orderMasterRepository.findOne(orderId);
+        OrderMaster orderMaster = orderMasterRepository.findById(orderId).orElse(null);
         if (orderMaster == null) {
             throw new SellException(ResultEnum.ORDER_NOT_EXIST);
         }
@@ -124,24 +128,23 @@ public class OrderServiceImpl implements OrderService {
         BeanUtils.copyProperties(orderMaster, orderDTO);
         orderDTO.setOrderDetailList(orderDetailList);
 
-        return orderDTO;*/
-        return null;
+        return orderDTO;
     }
 
     @Override
     public Page<OrderDTO> findList(String buyerOpenid, Pageable pageable) {
-        /*Page<OrderMaster> orderMasterPage = orderMasterRepository.findByBuyerOpenid(buyerOpenid, pageable);
+        Page<OrderMaster> orderMasterPage = orderMasterRepository.findByBuyerOpenid(buyerOpenid, pageable);
 
+        //控制上传的数据
         List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderMasterPage.getContent());
 
-        return new PageImpl<OrderDTO>(orderDTOList, pageable, orderMasterPage.getTotalElements());*/
-        return null;
+        return new PageImpl<OrderDTO>(orderDTOList, pageable, orderMasterPage.getTotalElements());
     }
 
     @Override
     @Transactional
     public OrderDTO cancel(OrderDTO orderDTO) {
-        /*OrderMaster orderMaster = new OrderMaster();
+        OrderMaster orderMaster = new OrderMaster();
 
         //判断订单状态
         if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
@@ -170,18 +173,18 @@ public class OrderServiceImpl implements OrderService {
 
         //如果已支付, 需要退款
         if (orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
-            payService.refund(orderDTO);
+//            payService.refund(orderDTO);
+            //TODO;
         }
 
-        return orderDTO;*/
-        return null;
+        return orderDTO;
     }
 
     @Override
     @Transactional
     public OrderDTO finish(OrderDTO orderDTO) {
         //判断订单状态
-        /*if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
+        if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
             log.error("【完结订单】订单状态不正确, orderId={}, orderStatus={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
             throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
         }
@@ -197,7 +200,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
         //推送微信模版消息
-        pushMessageService.orderStatus(orderDTO);
+        //TODO
+        //pushMessageService.orderStatus(orderDTO);
 
         return orderDTO;
     }
@@ -226,23 +230,15 @@ public class OrderServiceImpl implements OrderService {
             log.error("【订单支付完成】更新失败, orderMaster={}", orderMaster);
             throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
         }
-
-        return orderDTO;*/
-        return null;
+        return orderDTO;
     }
-
-    @Override
-    public OrderDTO paid(OrderDTO orderDTO) {
-        return null;
-    }
-
-    @Override
-    public Page<OrderDTO> findList(Pageable pageable) {
-        /*Page<OrderMaster> orderMasterPage = orderMasterRepository.findAll(pageable);
-
-        List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderMasterPage.getContent());
-
-        return new PageImpl<>(orderDTOList, pageable, orderMasterPage.getTotalElements());*/
-        return null;
-    }
+//
+//    @Override
+//    public Page<OrderDTO> findList(Pageable pageable) {
+//        Page<OrderMaster> orderMasterPage = orderMasterRepository.findAll(pageable);
+//
+//        List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderMasterPage.getContent());
+//
+//        return new PageImpl<>(orderDTOList, pageable, orderMasterPage.getTotalElements());
+//    }
 }

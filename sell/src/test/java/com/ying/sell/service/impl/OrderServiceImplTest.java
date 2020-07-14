@@ -2,7 +2,9 @@ package com.ying.sell.service.impl;
 
 import com.ying.sell.dataobject.OrderDetail;
 import com.ying.sell.dto.OrderDTO;
+import com.ying.sell.enums.OrderStatusEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class OrderServiceImplTest {
 
     private final String BUYER_OPENID = "1101110";
+    private final String ORDER_ID = "1594558796958384489";
     @Autowired
     private OrderServiceImpl orderService;
 
@@ -51,6 +54,9 @@ class OrderServiceImplTest {
 
     @Test
     void cancel() {
+        OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+        OrderDTO resault = orderService.cancel(orderDTO);
+        Assert.assertEquals(OrderStatusEnum.CANCEL.getCode(),resault.getOrderStatus());
     }
 
     @Test
