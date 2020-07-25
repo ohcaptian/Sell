@@ -1,6 +1,7 @@
 package com.ying.sell.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ying.sell.dataobject.OrderDetail;
 import com.ying.sell.enums.OrderStatusEnum;
