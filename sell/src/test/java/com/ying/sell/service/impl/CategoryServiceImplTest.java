@@ -21,13 +21,13 @@ class CategoryServiceImplTest {
 
     @Test
     public void findOne() throws Exception {
-        ProductCategory productCategory = categoryService.findone(1);
+        ProductCategory productCategory = categoryService.findOne(1);
         Assert.assertEquals(new Integer(1), productCategory.getCategoryId());
     }
 
     @Test
     public void findAll() throws Exception {
-        List<ProductCategory> productCategoryList = categoryService.findall();
+        List<ProductCategory> productCategoryList = categoryService.findAll();
         Assert.assertNotEquals(0, productCategoryList.size());
     }
 

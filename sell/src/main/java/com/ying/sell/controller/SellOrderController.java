@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
-
+/*
+        买家端，后台控制
+        后台控制
+ */
 @Controller
 @RequestMapping("/seller/order")
 @Slf4j

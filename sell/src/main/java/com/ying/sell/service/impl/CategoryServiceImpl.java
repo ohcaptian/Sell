@@ -18,12 +18,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
     @Override
-    public ProductCategory findone(Integer categoryId) {
+    public ProductCategory findOne(Integer categoryId) {
         return productCategoryRepository.findById(categoryId).get();
     }
 
     @Override
-    public List<ProductCategory> findall() {
+    public List<ProductCategory> findAll() {
         return productCategoryRepository.findAll();
     }
 
