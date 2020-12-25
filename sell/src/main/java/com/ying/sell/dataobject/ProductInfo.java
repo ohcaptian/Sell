@@ -1,5 +1,8 @@
 package com.ying.sell.dataobject;
-
+/*
+       商品实体类
+       商品的相关属性
+ */
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ying.sell.enums.ProductStatusEnum;
 import com.ying.sell.utils.EnumUtil;

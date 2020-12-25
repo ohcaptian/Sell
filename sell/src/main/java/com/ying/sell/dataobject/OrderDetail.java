@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 
 /*
-            买家信息表
+          订单信息表
  */
 @Entity
 @Data

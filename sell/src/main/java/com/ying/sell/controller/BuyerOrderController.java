@@ -9,7 +9,8 @@ import com.ying.sell.exception.SellException;
 import com.ying.sell.form.OrderForm;
 import com.ying.sell.service.OrderService;
 import com.ying.sell.utils.ResultVOUtil;
-import freemarker.template.utility.StringUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,11 +28,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/buyer/order")
 @Slf4j
+@Api(value = "订单控制")
 public class BuyerOrderController {
             //创建订单
     //6.10-6.11
     @Autowired
     private OrderService orderService;
+    @ApiOperation(value = "创建订单")
     @PostMapping("/create")
                 public ResultVo<Map<String,String>> create(@Valid OrderForm orderForm, BindingResult bindingResult){
                             if(bindingResult.hasErrors()){
@@ -52,6 +55,7 @@ public class BuyerOrderController {
 
 
             //订单列表
+            @ApiOperation(value = "查询所有订单")
     @GetMapping("/list")
     public ResultVo<List<OrderDTO>> list(@RequestParam(value = "openid")String openid,
                                          @RequestParam(value="page", defaultValue ="0") Integer page,
@@ -66,6 +70,7 @@ public class BuyerOrderController {
     }
 
     @GetMapping("/detail")
+    @ApiOperation(value = "订单详情")
     public ResultVo<OrderDTO> detail(@RequestParam("openid") String openid,
                                      @RequestParam("orderId") String orderId) {
         //TODO
@@ -77,6 +82,7 @@ public class BuyerOrderController {
 
     //取消订单
     @PostMapping("/cancel")
+    @ApiOperation("取消订单")
     public ResultVo cancel(@RequestParam("openid") String openid,
                            @RequestParam("orderId") String orderId) {
 //        buyerService.cancelOrder(openid, orderId);

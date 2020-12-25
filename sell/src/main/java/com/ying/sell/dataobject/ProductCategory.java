@@ -2,7 +2,7 @@ package com.ying.sell.dataobject;
 
 
 /*
-     类目表
+     类目实体类
  */
 
 

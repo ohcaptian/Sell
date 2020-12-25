@@ -5,6 +5,10 @@ import com.ying.sell.dto.OrderDTO;
 import com.ying.sell.enums.ResultEnum;
 import com.ying.sell.exception.SellException;
 import com.ying.sell.service.OrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,12 +27,15 @@ import java.util.Map;
 @Controller
 @RequestMapping("/seller/order")
 @Slf4j
+@Api(value="卖家端",tags = "卖家订单信息")
 public class SellOrderController {
 
     @Autowired
     private OrderService orderService;
+    @ApiOperation(value = "获取卖家订单",notes = "获取订单列表")
+
     @GetMapping("list")
-    public ModelAndView list(@RequestParam(value ="page",defaultValue = "1")Integer page, @RequestParam(value ="size" ,defaultValue = "10") Integer size,
+    public ModelAndView list(@ApiParam(name = "page", value ="分页" )@RequestParam(value ="page",defaultValue = "1")Integer page,@ApiParam(name = "size", value ="一页数据量" )@RequestParam(value ="size" ,defaultValue = "10") Integer size,
                              Map<String,Object> map){
         PageRequest request = PageRequest.of(page-1,size);
         Page<OrderDTO> orderDTOPage = orderService.findList(request);
@@ -42,6 +49,8 @@ public class SellOrderController {
      * @return
      */
     @GetMapping("/cancel")
+    @ApiOperation(value = "取消订单",notes = "根据订单Id取消订单")
+    @ApiImplicitParam(value = "订单Id",paramType = "path")
     public ModelAndView cancel(@RequestParam("orderId") String orderId,
                                Map<String, Object> map) {
         try {

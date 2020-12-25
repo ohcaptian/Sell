@@ -9,6 +9,7 @@ import com.ying.sell.dataobject.ProductInfo;
 import com.ying.sell.service.CategoryService;
 import com.ying.sell.service.ProductService;
 import com.ying.sell.utils.ResultVOUtil;
+import io.swagger.annotations.Api;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/buyer/product")
+@Api(value = "提供给买家的商品信息")
 public class BuyerProductController {
     @Autowired
     private ProductService productService;
@@ -37,6 +39,7 @@ public class BuyerProductController {
     //查询上架商品
     //查询类目
     //一次性查询
+    //返回Vo视图
     @GetMapping("/list")
     public ResultVo list() {
         //1,查询所有商品
@@ -51,6 +54,7 @@ public class BuyerProductController {
         //3 数据拼接
         List<ProductVo> productVOList = new ArrayList<>();
         for (ProductCategory productCategory : productCategoryList) {
+            //属性赋值，将productCategory值赋值给productVO，返回给前端
             ProductVo productVO = new ProductVo();
             productVO.setCategoryType(productCategory.getCategoryType());
             productVO.setCategoryName(productCategory.getCategoryName());
@@ -66,12 +70,13 @@ public class BuyerProductController {
             productVOList.add(productVO);
         }
         /*
-                对这串代码进行封装;
+
         ResultVo resultVo = new ResultVo();
         resultVo.setData(productVOList);
         resultVo.setCode(0);
         resultVo.setMsg("成功");
          */
+        //用工具类 对这串代码进行封装;
         return ResultVOUtil.success(productVOList);
     }
 }

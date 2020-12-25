@@ -83,6 +83,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setOrderId(orderId);
             //获取订单的其他数据
             BeanUtils.copyProperties(productInfo, orderDetail);
+            //存入数据库
             orderDetailRepository.save(orderDetail);
 
 //            CartDTO cartDTO = new CartDTO(orderDetail.getProductId(), orderDetail.getProductQuantity());
@@ -90,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
 
-        //3. 写入订单数据库（orderMaster和orderDetail）
+        //3. 写入订单数据库（orderMaster）
         OrderMaster orderMaster = new OrderMaster();
         orderDTO.setOrderId(orderId);
         BeanUtils.copyProperties(orderDTO, orderMaster);
@@ -234,7 +235,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-
+    //查询所有订单列表，供卖家端使用
     @Override
     public Page<OrderDTO> findList(Pageable pageable) {
         Page<OrderMaster> orderMasterPage = orderMasterRepository.findAll(pageable);
